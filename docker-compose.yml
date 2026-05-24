@@ -3,7 +3,7 @@ services:
   app:
     build: .
     ports:
-      - "8080:8080"
+      - "1149:1149"
     volumes:
       - .:/app          # hot-reload during dev
     environment:
