@@ -1,10 +1,9 @@
-# docker-compose.yml
 services:
   app:
     build: .
     ports:
-      - "1149:1149"
+      - "3000:3000"
     volumes:
-      - .:/app          # hot-reload during dev
+      - .:/app
     environment:
       - ENV=development
