@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"io"
 	"net/http"
@@ -21,9 +22,26 @@ func (t *Templates) Render(w io.Writer, name string, data interface{}, c echo.Co
 }
 
 func newTemplate() *Templates {
-	return &Templates{
-		templates: template.Must(template.ParseGlob("views/*.html")),
+	funcMap := template.FuncMap{
+		"dict": func(values ...any) (map[string]any, error) {
+			if len(values)%2 != 0 {
+				return nil, fmt.Errorf("dict requires even number of args")
+			}
+			m := make(map[string]any, len(values)/2)
+			for i := 0; i < len(values); i += 2 {
+				key, ok := values[i].(string)
+				if !ok {
+					return nil, fmt.Errorf("dict keys must be strings")
+				}
+				m[key] = values[i+1]
+			}
+			return m, nil
+		},
 	}
+
+	tmpl := template.Must(template.New("").Funcs(funcMap).ParseGlob("views/*.html"))
+	template.Must(tmpl.ParseGlob("views/components/*.html"))
+	return &Templates{templates: tmpl}
 }
 
 func main() {
@@ -32,13 +50,15 @@ func main() {
 	e.Debug = os.Getenv("DEBUG") == "true"
 	e.HideBanner = true
 
-	e.Use(middleware.RequestLogger()) // use the RequestLogger middleware with slog logger
-	e.Use(middleware.Recover())       // recover panics as errors for proper error handling
+	e.Use(middleware.RequestLogger())
+	e.Use(middleware.Recover())
 
 	e.Renderer = newTemplate()
 
+	e.Static("/resources", "resources")
+
 	e.GET("/", func(c echo.Context) error {
-		return c.Render(200, "index", nil)
+		return c.Render(200, "index.html", nil)
 	})
 
 	e.GET("/about-us", func(c echo.Context) error {

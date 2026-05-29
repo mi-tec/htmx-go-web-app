@@ -1,4 +1,4 @@
-{{ block "index" . }}
+{{ define "index.html" }}
 <!DOCTYPE html>
 <html lang="en" class="dark">
 
@@ -8,24 +8,17 @@
 	<script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js"
 		integrity="sha384-H5SrcfygHmAuTDZphMHqBJLc3FhssKjG7w/CeCpFReSfwBWDTKpkzPP8c+cLsK+V"
 		crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
 		rel="stylesheet">
 	<title>Home</title>
-	<style type="text/tailwindcss">
-		body{
-					font-family: "Open Sans", sans-serif;
-  				font-optical-sizing: auto;
-  				font-style: normal;
-  				font-variation-settings: "wdth" 100;
-		}
-    </style>
+	<link rel="stylesheet" href="/resources/css/app.css">
+	<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
 <body>
-	<div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+	<div class="flex w-full items-center justify-center p-2">
 		<div class="w-full max-w-sm md:max-w-xl">
 			<div class="flex flex-col p-10 rounded-md border-none shadow-xl gap-2">
 				<p class="text-center text-xl">Login</p>
@@ -33,7 +26,7 @@
 					<div class="flex flex-col gap-5">
 						<div class="flex flex-col">
 							<label for="username">Username</label>
-							<input type="text" name="username" value="" placeholder="Username"
+							<input type="text" name="username" value="" id="uname" placeholder="Username"
 								class="border-2 border-solid rounded-md p-2 border-zinc-200">
 						</div>
 						<div class="flex flex-col">
@@ -41,8 +34,9 @@
 							<input type="password" name="password" value="" placeholder="password"
 								class="border-2 border-solid rounded-md p-2 border-zinc-200">
 						</div>
-						<button type=" submit"
-							class="bg-sky-400 text-white rounded-full px-2 py-1.5 font-sans text-sm/6 font-medium shadow">Submit</button>
+						<button type="subit" class="btn__secondary p-2">Submit</button>
+						<!-- <button type="submit" -->
+						<!-- 	class="bg-sky-400 text-white rounded-full px-2 py-1.5 font-sans text-sm/6 font-medium shadow">Submit</button> -->
 					</div>
 				</form>
 			</div>
